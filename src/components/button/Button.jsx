@@ -1,9 +1,39 @@
-import React, {useState} from 'react';
-import { StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-export default function ButtonPr(props) {
-    var [height, width, color] = []
-   //https://reactnative.dev/docs/pressable
+const ButtonPr = (props) => {
+    const [longPressed, setLongPressed] = useState(false);
+
+    var [height, width, textColor, backgroundColor] = []
+
+    switch (props.style) {
+        case 'primary':
+            textColor = 'white'
+            borderWidth = 0
+            borderColor = 'white'
+            backgroundColor = '#5F2EEA'
+            break;
+        case 'secondary':
+            textColor = props.disabled ? '#ae96f3': '#5F2EEA'
+            borderWidth = 2
+            borderColor = '#5F2EEA'
+            backgroundColor = 'white'
+            break;
+        case 'subtle':
+            textColor = props.disabled ? '#ae96f3': '#5F2EEA'
+            borderWidth = 2
+            borderColor = '#D9DBE9'
+            backgroundColor = 'white'
+            break;
+        case 'text':
+            textColor = props.disabled ? '#ae96f3': '#5F2EEA'
+            borderWidth = 0
+            borderColor = 'white'
+            backgroundColor = 'white'
+            break;
+        default:
+            break;
+    }
 
     switch (props.size) {
         case 'large':
@@ -18,49 +48,55 @@ export default function ButtonPr(props) {
             height = 40
             width = 120
             break;
-    
+
         default:
             break;
-    }
+    } 
 
-    switch (props.style) {
-        case 'initial':
-            color = '#5F2EEA'
-            break;
-        case 'disabled':
-            color = '#ac94ef'
-            break;
-        // case initial:
-            
-        //     break;
-        // case initial:
-            
-        //     break;
-        default:
-            break;
-    }
-
-    return (
-        <TouchableOpacity>
-            <View style={
-                [styles.btn, {height: height, width: width}, {backgroundColor: color}]
-                }>
-                <Text>asdf</Text>
-            </View>
-        </TouchableOpacity>
-    );
-  }
+  return (
+    <View>
+      <Pressable
+        android_disableSound={true}
+        disabled={props.disabled}
+        onLongPress={()=>{setLongPressed(true)}}
+        onPressOut={()=>{setLongPressed(false)}}
+        style={({ pressed }) => [
+          {
+            borderWidth: borderWidth,
+            borderColor: (props.style == 'secondary') ? pressed ? '#2A00A2': (props.disabled) ? (props.style == 'subtle') ? '#ebecf2' : '#ae96f3': borderColor : borderColor,
+            backgroundColor: pressed
+              ? ((props.style == 'primary') ? '#2A00A2' : backgroundColor)
+              : (props.disabled) ? (props.style == 'primary') ? '#ac94ef' : backgroundColor: backgroundColor
+          },
+        //   (longPressed)? {borderWidth: 8, borderColor: '#E4DAFF'} : {},
+          styles.wrapperCustom,
+          {height: height, width: width}
+        ]}>
+          <Text style={[styles.text, {color: textColor}]}>
+            {props.text}
+          </Text>
+      </Pressable>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
-    btn: {
-        borderRadius: 40,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    
-  });
+  text: {
+    fontSize: 16
+  },
+  wrapperCustom: {
+    borderRadius: 40,
+    padding: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+});
 
   ButtonPr.defaultProps = {
     size: 'medium',
-    style: 'initial'
+    style: 'subtle',
+    text: 'Button',
+    disabled: false
     }
+
+export default ButtonPr;
