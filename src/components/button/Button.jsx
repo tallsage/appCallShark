@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 const ButtonPr = (props) => {
-    const [longPressed, setLongPressed] = useState(false);
+    const [btnPressed, setBtnPressed] = useState(false);
 
     var [height, width, textColor, backgroundColor] = []
 
@@ -14,19 +14,19 @@ const ButtonPr = (props) => {
             backgroundColor = '#5F2EEA'
             break;
         case 'secondary':
-            textColor = props.disabled ? '#ae96f3': '#5F2EEA'
+            textColor = btnPressed ? '#2A00A2' : props.disabled ? '#ae96f3': '#5F2EEA'
             borderWidth = 2
             borderColor = '#5F2EEA'
             backgroundColor = 'white'
             break;
         case 'subtle':
-            textColor = props.disabled ? '#ae96f3': '#5F2EEA'
+            textColor = btnPressed ? '#2A00A2' : props.disabled ? '#ae96f3': '#5F2EEA'
             borderWidth = 2
             borderColor = '#D9DBE9'
             backgroundColor = 'white'
             break;
         case 'text':
-            textColor = props.disabled ? '#ae96f3': '#5F2EEA'
+            textColor = btnPressed ? '#2A00A2' : props.disabled ? '#ae96f3': '#5F2EEA'
             borderWidth = 0
             borderColor = 'white'
             backgroundColor = 'white'
@@ -58,8 +58,8 @@ const ButtonPr = (props) => {
       <Pressable
         android_disableSound={true}
         disabled={props.disabled}
-        onLongPress={()=>{setLongPressed(true)}}
-        onPressOut={()=>{setLongPressed(false)}}
+        onPressIn={()=>{setBtnPressed(true)}}
+        onPressOut={()=>{setBtnPressed(false)}}
         style={({ pressed }) => [
           {
             borderWidth: borderWidth,
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
 
   ButtonPr.defaultProps = {
     size: 'medium',
-    style: 'subtle',
+    style: 'primary',
     text: 'Button',
     disabled: false
     }

@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import ButtonPr from '../../components/button/Button';
+import IconButton from '../../components/iconButton/IconButton';
 
 export default function LoginScreen(props) {
 
     return (
     <View style={styles.container}>
-      <ButtonPr/>
+      <IconButton/>
       <Text>Open up App.js to start working on your app!!!!!!!!!!!!</Text>
     </View>
     );
